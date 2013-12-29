@@ -19,12 +19,9 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		Functions s= new Functions();
-		//s.trim("/storage/extSdCard/Media/test1.mp4",3,5);
-		//s.fun_grabber();
-		//s.merge();
-		//s.speed("/storage/extSdCard/Media/test.mp4",(float)0.5);
-		//s.merge_vid("/storage/extSdCard/Media/test.mp4", "/storage/extSdCard/Media/test.mp4");
-		//s.trim_vid("/storage/extSdCard/Media/test.mp4", 1, 2);
+			//s.speed("/storage/extSdCard/Media/test.mp4",(float)0.5,"/storage/extSdCard/Media/out.mp4");
+		//s.merge_vid("/storage/extSdCard/Media/test.mp4", "/storage/extSdCard/Media/test.mp4",/storage/extSdCard/Media/out.mp4");
+		//s.trim_vid("/storage/extSdCard/Media/test.mp4", 1, 2,"/storage/extSdCard/Media/out.mp4");
 		Log.d("main activity", "Trimming complete");
 		Toast.makeText(getApplicationContext(), "Trimming Complete " + s.trim_vid("/storage/extSdCard/Media/test.mp4", 1, 2),Toast.LENGTH_LONG).show();
 		return true;
