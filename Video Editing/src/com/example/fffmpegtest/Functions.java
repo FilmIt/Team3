@@ -19,7 +19,7 @@ import static com.googlecode.javacv.cpp.opencv_core.*;
 public class Functions {
 
 //function to increase or decrease the speed of video playback
-void speed(String filepath, float multiplier){
+void speed(String filepath, float multiplier, String outpath){
 	FrameGrabber videoGrabber1 = new FFmpegFrameGrabber(filepath);
 	try {
 		videoGrabber1.setFormat("mp4");//mp4 for example
@@ -30,7 +30,7 @@ void speed(String filepath, float multiplier){
 		Log.e("javacv", "Failed to start grabber" + e);     
 		//return -1;  
 	}
-	FFmpegFrameRecorder recorder = new FFmpegFrameRecorder("/storage/extSdCard/Media/test_same.mp4",videoGrabber1.getImageWidth(),videoGrabber1.getImageHeight(),videoGrabber1.getAudioChannels());
+	FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outpath,videoGrabber1.getImageWidth(),videoGrabber1.getImageHeight(),videoGrabber1.getAudioChannels());
 	
 	try {
 		
@@ -85,7 +85,7 @@ void speed(String filepath, float multiplier){
 	
 }
 
-void merge_vid(String filepath1, String filepath2){
+void merge_vid(String filepath1, String filepath2, String outpath){
 	FrameGrabber videoGrabber1 = new FFmpegFrameGrabber(filepath1);
 	FrameGrabber videoGrabber2 = new FFmpegFrameGrabber(filepath2);
 	try {
@@ -98,7 +98,7 @@ void merge_vid(String filepath1, String filepath2){
 	catch(com.googlecode.javacv.FrameGrabber.Exception e) {           
 		Log.e("javacv", "Failed to start grabber" + e);   
 	}
-	FFmpegFrameRecorder recorder = new FFmpegFrameRecorder("/storage/extSdCard/Media/test_merge.mp4",200,150);
+	FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outpath, 200, 150);
 	try {
 		recorder.setVideoCodec(AV_CODEC_ID_H264);
 		recorder.setFrameRate(videoGrabber1.getFrameRate());
@@ -155,7 +155,7 @@ void merge_vid(String filepath1, String filepath2){
 	}	
 }
 
-float trim_vid(String filepath, int start, int end){
+float trim_vid(String filepath, int start, int end, String outpath){
 	
 	FrameGrabber videoGrabber1 = new FFmpegFrameGrabber(filepath);	
 	
@@ -168,7 +168,7 @@ float trim_vid(String filepath, int start, int end){
 	catch(com.googlecode.javacv.FrameGrabber.Exception e) {           
 		Log.e("javacv", "Failed to start grabber" + e);   
 	}
-	FFmpegFrameRecorder recorder = new FFmpegFrameRecorder("/storage/extSdCard/Media/test_trim.mp4",200,150);
+	FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outpath, 200, 150);
 	try {
 		recorder.setVideoCodec(AV_CODEC_ID_H264);
 		recorder.setFrameRate(videoGrabber1.getFrameRate());
