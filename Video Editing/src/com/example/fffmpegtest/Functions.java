@@ -98,11 +98,13 @@ void merge_vid(String filepath1, String filepath2, String outpath){
 	catch(com.googlecode.javacv.FrameGrabber.Exception e) {           
 		Log.e("javacv", "Failed to start grabber" + e);   
 	}
-	FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outpath, 200, 150);
+	FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outpath,videoGrabber1.getImageWidth(),videoGrabber1.getImageHeight(),videoGrabber1.getAudioChannels());
 	try {
 		recorder.setVideoCodec(AV_CODEC_ID_H264);
 		recorder.setFrameRate(videoGrabber1.getFrameRate());
 		recorder.setPixelFormat(AV_PIX_FMT_YUV420P);
+		recorder.setSampleFormat(videoGrabber1.getSampleFormat());
+        recorder.setSampleRate(videoGrabber1.getSampleRate());
 		recorder.start();
 	}
 	catch(Exception e) {
@@ -168,31 +170,37 @@ float trim_vid(String filepath, int start, int end, String outpath){
 	catch(com.googlecode.javacv.FrameGrabber.Exception e) {           
 		Log.e("javacv", "Failed to start grabber" + e);   
 	}
-	FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outpath, 200, 150);
+	FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outpath,videoGrabber1.getImageWidth(),videoGrabber1.getImageHeight(),videoGrabber1.getAudioChannels());
 	try {
 		recorder.setVideoCodec(AV_CODEC_ID_H264);
 		recorder.setFrameRate(videoGrabber1.getFrameRate());
 		recorder.setPixelFormat(AV_PIX_FMT_YUV420P);
+		recorder.setSampleFormat(videoGrabber1.getSampleFormat());
+        recorder.setSampleRate(videoGrabber1.getSampleRate());
 		recorder.start();
+		//videoGrabber1.setFrameNumber(start*(int)videoGrabber1.getFrameRate());
 	}
 	catch(Exception e) {
 		e.printStackTrace();
-	}
-	Frame vFrame = null;
+	} 
 	
+	Frame vFrame = null;
+	double frate=videoGrabber1.getFrameRate();
 	float ha=0;
-	for(int i=0;/*i<(start-end)*videoGrabber1.getFrameRate() &&*/;i++) {
+	for(float i=0;i<=end*frate;i++) {
 		try {
 			
 			vFrame = videoGrabber1.grabFrame();
 			
-			if(vFrame != null && i>=(start-1)*videoGrabber1.getFrameRate() ) {				
+			if(vFrame != null && i>(start)*frate ) {				
 				Log.d("Recorder", "Recording loop...");
 				ha++;
 					recorder.record(vFrame);
 			}
-			if(vFrame==null || i>(end-start)*videoGrabber1.getFrameRate())
+			if(vFrame==null /*|| i>(end)*videoGrabber1.getFrameRate()*/){
+				//ha=(float) ((end)*frate);
 				break;
+			}
 		}
 		catch(com.googlecode.javacv.FrameGrabber.Exception e) {
 			Log.e("javacv", "video grabFrame failed: "+ e);
